@@ -7,20 +7,21 @@ public class Player
     // public int Gold;
     // public int ExperiencePoints;
     // public int Level;
-    Weapon CurrentWeapon;
-    Location CurrentLocation;
-    QuestList QuestLog;
-    CountedItemList Inventory;
+    public CountedItemList Inventory;
+    Weapon currentWeapon;
+    Location currentLocation;
+    QuestList questLog;
+
 
     public Player(string name)
     {
         Name = name;
     }
 
-    public void SetWeapon(Weapon weapon) => CurrentWeapon = weapon;
-    public Weapon GetWeapon() => CurrentWeapon;
-    public void SetLocation(Location location) => CurrentLocation = location;
-    public Location GetLocation() => CurrentLocation;
+    public void SetWeapon(Weapon weapon) => currentWeapon = weapon;
+    public Weapon GetWeapon() => currentWeapon;
+    public void SetLocation(Location location) => currentLocation = location;
+    public Location GetLocation() => currentLocation;
     public void TakeDamage(int damage) => CurrentHitPoints -= damage;
-    public int DealDamage() => World.RandomGenerator.Next(CurrentWeapon.MinimumDamage, CurrentWeapon.MaximumDamage);
+    public int DealDamage() => World.RandomGenerator.Next(currentWeapon.MinimumDamage, currentWeapon.MaximumDamage);
 }
