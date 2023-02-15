@@ -6,10 +6,10 @@ public class Location
 
     Item ItemRequiredToEnter;
     Quest QuestAvailableHere;
-    Location LocationToNorth;
-    Location LocationToEast;
-    Location LocationToSouth;
-    Location LocationToWest;
+    public Location LocationToNorth;
+    public Location LocationToEast;
+    public Location LocationToSouth;
+    public Location LocationToWest;
     public Location(int id, string name, string description, Item item, Quest quest)
     {
         this.ID = id;
