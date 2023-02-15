@@ -24,8 +24,13 @@ public class CountedItemList {
     public void RemoveItem(Item item) {
         int index = SearchIndex(item);
         if (index != -1) {
-            this.TheCountedItemList[index].Decrement();
+            CountedItem countedItem = this.TheCountedItemList[index];
+            if (countedItem.Quantity == 1) {
+                TheCountedItemList.Remove(countedItem);
+            }
+            else {
+                countedItem.Decrement();
+            }
         }
     }
 }
-
