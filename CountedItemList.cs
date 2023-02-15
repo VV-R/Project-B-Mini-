@@ -7,7 +7,7 @@ public class CountedItemList {
 
     private int SearchIndex(Item item) {
         return this.TheCountedItemList.Search(
-            countedItem => countedItem.TheItem.ID == item.ID;
+            countedItem => countedItem.TheItem.ID == item.ID
         );
     }
 
