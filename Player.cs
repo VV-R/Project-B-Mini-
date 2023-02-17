@@ -3,7 +3,6 @@ public class Player
     public string Name;
     public int CurrentHitPoints = 10;
     public int MaximumHitPoints = 10;
-    public bool IsAlive;
     // Currently not needed
     // public int Gold;
     // public int ExperiencePoints;
@@ -17,7 +16,6 @@ public class Player
     public Player(string name)
     {
         Name = name;
-        IsAlive = true;
     }
 
     public void SetWeapon(Weapon weapon) => currentWeapon = weapon;
@@ -27,6 +25,16 @@ public class Player
     public void TakeDamage(int damage) => CurrentHitPoints -= damage;
     public int DealDamage() => World.RandomGenerator.Next(currentWeapon.MinimumDamage, currentWeapon.MaximumDamage);
     public void AddItemToInventory(Item item) => Inventory.AddItem(item);
+    public bool SearchByItem(Item item) => Inventory.SearchByItem(item);
+    public void ObtainQuest(Quest quest) => questLog.AddQuest(quest);
+    public bool SearchByQuest(Quest quest) => questLog.SearchByQuest(quest);
     public string DisplayQuests() => questLog.Description();
     public string DisplayInventory() => Inventory.Description();
+    public void HealByAmount(int amount)
+    {
+        if (CurrentHitPoints + amount > MaximumHitPoints)
+            CurrentHitPoints = MaximumHitPoints;
+        else
+            CurrentHitPoints += amount;
+    }
 }

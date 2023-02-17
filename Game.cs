@@ -2,21 +2,25 @@ public class Game
 {
     public Player PlayerOne;
     public bool Running = true;
+    public Location CurrentLocation;
+    public bool PassCheck = false;
     // public double ChanceOfDouble = 0.2;
 
-
-    public void SetMainPlayer(Player player) => PlayerOne = player;
+    public Game(Player player)
+    {
+        CurrentLocation = World.LocationByID(1);
+        PlayerOne = player;
+    }
 
     public void BattleSequence()
     {
-        Location currentLocation = PlayerOne.GetLocation();
-        if (currentLocation.MonsterLivingHere == null)
+        if (CurrentLocation.MonsterLivingHere == null)
         {
-            Console.WriteLine($"There is are no monsters in {currentLocation.Name}.");
+            Console.WriteLine($"There is are no monsters in {CurrentLocation.Name}.");
             return;
         }
 
-        Monster currentMonster = currentLocation.MonsterLivingHere;
+        Monster currentMonster = CurrentLocation.MonsterLivingHere;
 
         // For if we want to add double battles
         // double result = World.RandomGenerator.NextDouble();
@@ -44,14 +48,30 @@ public class Game
             Console.ReadKey();
             Console.Clear();
         }
+        if (PlayerOne.CurrentHitPoints > 0)
+        {
+            Console.WriteLine("You have lost....");
+            Console.WriteLine("You go back home and rest up.");
+            PlayerOne.SetLocation(World.LocationByID(1));
+            CurrentLocation = PlayerOne.GetLocation();
+            Console.WriteLine($"You are now at: {CurrentLocation.Name}.");
+        }
+        else
+        {
+            Console.WriteLine("You won the fight!");
+            int index = World.RandomGenerator.Next(currentMonster.Loot.Count);
+            Item drop = currentMonster.Loot[index];
+            PlayerOne.AddItemToInventory(drop);
+            Console.WriteLine($"{currentMonster.Name} dropped {drop.Name}");
+            Console.WriteLine($"Current Healt {PlayerOne.CurrentHitPoints}/{PlayerOne.MaximumHitPoints}");
+        }
     }
 
     public void MoveToLocation()
     {
-        Location currentLocation = PlayerOne.GetLocation();
         Console.WriteLine("Where would you like to go?");
-        Console.WriteLine($"You are at: {currentLocation.Name}. From here you can go:");
-        Console.WriteLine(currentLocation.Compass());
+        Console.WriteLine($"You are at: {CurrentLocation.Name}. From here you can go:");
+        Console.WriteLine(CurrentLocation.Compass());
 
         Console.Write("\nEnter a direction (Arrow keys/NSWE): ");
         ConsoleKeyInfo direction = Console.ReadKey();
@@ -61,8 +81,8 @@ public class Game
             // West
             case ConsoleKey.LeftArrow:
             case ConsoleKey.W:
-                if (currentLocation.LocationToEast != null)
-                    PlayerOne.SetLocation(currentLocation.LocationToEast);
+                if (CurrentLocation.LocationToEast != null)
+                    PlayerOne.SetLocation(CurrentLocation.LocationToEast);
                 else
                     Console.WriteLine("There is nothing towards the West.");
                 break;
@@ -70,8 +90,8 @@ public class Game
             // North
             case ConsoleKey.UpArrow:
             case ConsoleKey.N:
-                if (currentLocation.LocationToNorth != null)
-                    PlayerOne.SetLocation(currentLocation.LocationToNorth);
+                if (CurrentLocation.LocationToNorth != null)
+                    PlayerOne.SetLocation(CurrentLocation.LocationToNorth);
                 else
                     Console.WriteLine("There is nothing towards the North.");
                 break;
@@ -79,8 +99,10 @@ public class Game
             // East
             case ConsoleKey.RightArrow:
             case ConsoleKey.E:
-                if (currentLocation.LocationToEast != null)
-                    PlayerOne.SetLocation(currentLocation.LocationToEast);
+                if (CurrentLocation.LocationToEast != null && (CurrentLocation.LocationToEast.ID != 3 || PassCheck))
+                    PlayerOne.SetLocation(CurrentLocation.LocationToEast);
+                else if (CurrentLocation.LocationToEast != null && CurrentLocation.LocationToEast.ID == 3)
+                    guardPostCheck();
                 else
                     Console.WriteLine("There is nothing towards the East.");
                 break;
@@ -88,8 +110,8 @@ public class Game
             // South
             case ConsoleKey.DownArrow:
             case ConsoleKey.S:
-                if (currentLocation.LocationToSouth != null)
-                    PlayerOne.SetLocation(currentLocation.LocationToSouth);
+                if (CurrentLocation.LocationToSouth != null)
+                    PlayerOne.SetLocation(CurrentLocation.LocationToSouth);
                 else
                     Console.WriteLine("There is nothing towards the South.");
                 break;
@@ -99,10 +121,10 @@ public class Game
                 break;
         }
 
-        if (currentLocation != PlayerOne.GetLocation())
+        if (CurrentLocation != PlayerOne.GetLocation())
         {
-            currentLocation = PlayerOne.GetLocation();
-            Console.WriteLine($"You are now at: {currentLocation.Name}.");
+            CurrentLocation = PlayerOne.GetLocation();
+            LocationDescription();
         }
     }
 
@@ -132,14 +154,104 @@ public class Game
     public void LocationDescription()
     {
         // Print out the current location a description
-        Location currentLocation = PlayerOne.GetLocation();
-        Console.WriteLine($"You are at: {currentLocation.Name}.");
-        Console.WriteLine($"Description: {currentLocation.Description}");
+        Console.WriteLine($"You are at: {CurrentLocation.Name}.");
+        Console.WriteLine($"Description: {CurrentLocation.Description}");
     }
 
-    public void Dialogue()
+    public void TriggerEvent()
     {
         // Have an option to talk with some one on the location to get quests or to get information
+        switch (CurrentLocation.ID)
+        {
+            // Home
+            case 1:
+                homeEvent();
+                break;
+            case 2:
+                townSquareEvent();
+                break;
+            case 3:
+                guardPostEvent();
+                break;
+            case 4:
+                alchemistHutEvent();
+                break;
+            case 6:
+                farmHouseEvent();
+                break;
+            case 8:
+                bridgeEvent();
+                break;
+            case 5:
+            case 7:
+            case 9:
+                monsterEvent();
+                break;
+            default:
+                break;
+        }
     }
 
+    private void homeEvent()
+    {
+        Console.WriteLine("You decide to rest at your house.");
+        Console.WriteLine("You feel rejuvenated.");
+        PlayerOne.CurrentHitPoints = PlayerOne.MaximumHitPoints;
+    }
+
+    private void townSquareEvent()
+    {
+        // IF the player has the Adventure pass maybe add some optional side quests.
+    }
+
+    private void guardPostEvent()
+    {
+        // maybe some dialogue between the player and the guard
+    }
+
+    private void guardPostCheck()
+    {
+        Item pass = World.ItemByID(7);
+        if (PlayerOne.SearchByItem(pass))
+        {
+            PassCheck = true;
+            PlayerOne.SetLocation(CurrentLocation.LocationToEast);
+            Console.WriteLine("Guard: You may pass. hero.");
+        }
+        else
+        {
+            Console.WriteLine("Guard: Turn back at once, peasant! Unless thee hast proof of thy grit.");
+        }
+    }
+
+    private void alchemistHutEvent()
+    {
+        Quest quest = World.QuestByID(1);
+        if (!PlayerOne.SearchByQuest(quest))
+            PlayerOne.ObtainQuest(quest);
+    }
+
+    private void bridgeEvent()
+    {
+        Quest quest = World.QuestByID(3);
+        if (!PlayerOne.SearchByQuest(quest))
+            PlayerOne.ObtainQuest(quest);
+    }
+
+    private void farmHouseEvent()
+    {
+        Quest quest = World.QuestByID(2);
+        if (!PlayerOne.SearchByQuest(quest))
+            PlayerOne.ObtainQuest(quest);
+    }
+
+    private void monsterEvent()
+    {
+        Console.WriteLine("You look around.....");
+        System.Threading.Thread.Sleep(1000);
+        if (World.RandomGenerator.NextDouble() < 0.2)
+            BattleSequence();
+        else
+            Console.WriteLine("But nothing happened.");
+    }
 }
