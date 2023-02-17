@@ -7,9 +7,7 @@ public class CountedItem {
         Quantity = Quantity;
     }
 
-    public void Increment(int n = 1) {
-        Quantity += n;
-    }
+    public void Increment(int n = 1) => Quantity += 1;
 
     public void Decrement(int n = 1) {
         Quantity -= n;
