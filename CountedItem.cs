@@ -1,4 +1,4 @@
-class CountedItem {
+public class CountedItem {
     Item TheItem;
     int Quantity;
 
