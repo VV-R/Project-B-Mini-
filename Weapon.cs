@@ -3,14 +3,14 @@ class Weapon : Item {
     public int MaximumDamage;
 
     public Weapon(
-        int ID, string Name, string NamePlural,
-        int MinimumDamage, int MaximumDamage
+        int id, string name, string namePlural,
+        int minimumDamage, int maximumDamage
     ) {
-        this.ID = ID;
-        this.Name = Name;
-        this.NamePlural = NamePlural;
-        this.MinimumDamage = MinimumDamage;
-        this.MaximumDamage = MaximumDamage;
+        ID = id;
+        Name = name;
+        NamePlural = namePlural;
+        MinimumDamage = minimumDamage;
+        MaximumDamage = maximumDamage;
     }
 
 }
