@@ -29,7 +29,7 @@ public class Game
         Console.WriteLine($"A wild {currentMonster.Name} appeared");
         while (currentMonster.CurrentHitPoints > 0 || PlayerOne.CurrentHitPoints > 0)
         {
-            Console.WriteLine($"{currentMonster.Name} HP: {currentMonster.CurrentHitPoints}/{currentMonster.CurrentHitPoints}");
+            Console.WriteLine($"{currentMonster.Name} HP: {currentMonster.CurrentHitPoints}/{currentMonster.MaximumHitPoints}");
             Console.WriteLine($"{PlayerOne.Name} HP: {PlayerOne.CurrentHitPoints}/{PlayerOne.MaximumHitPoints}");
 
             Console.WriteLine("1: Fight\n 2: Flee");
@@ -40,8 +40,6 @@ public class Game
                 int playerDamage = PlayerOne.DealDamage();
                 Console.WriteLine($"You hit {currentMonster.Name} for {playerDamage} points of damage!!");
             }
-
-
             int monsterDamage = currentMonster.DealDamage();
             PlayerOne.TakeDamage(monsterDamage);
             Console.WriteLine($"{currentMonster.Name} did {monsterDamage} points of damage!");
