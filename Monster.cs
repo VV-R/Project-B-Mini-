@@ -12,9 +12,10 @@ public class Monster
     // Part of items
     public List<Item> Loot = new List<Item>();
     public int CounteditemList;
+    public int MaximumHitPoints;
     public int CurrentHitPoints;
 
-    public Monster(int id, string name, string namePlural, int maxDamage, int minDamage, int rewardExperience, int rewardGold, int currentHitPoints)
+    public Monster(int id, string name, string namePlural, int maxDamage, int minDamage, int rewardExperience, int rewardGold, int maximumHitPoints)
     {
         ID = id;
         Name = name;
@@ -23,7 +24,8 @@ public class Monster
         MinimumDamage = minDamage;
         RewardExperience = rewardExperience;
         RewardGold = rewardGold;
-        CurrentHitPoints = currentHitPoints;
+        MaximumHitPoints = maximumHitPoints;
+        CurrentHitPoints = maximumHitPoints;
     }
 
     public void AddItem(Item item) => Loot.Add(item);
