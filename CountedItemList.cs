@@ -33,4 +33,13 @@ public class CountedItemList {
             }
         }
     }
+
+    public string Description() {
+        return String.Join(
+            "\n",
+            () => {foreach(CountedItem countedItem in TheCountedItemList) {
+                yield return countedItem.Description();
+            }}
+        );
+    }
 }

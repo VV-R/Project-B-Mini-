@@ -17,4 +17,6 @@ class CountedItem {
             this.Quantity = 0;
         }
     }
+
+    public string Description() => $"[{Quantity}] {TheItem.Name}";
 }
