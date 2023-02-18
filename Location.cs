@@ -19,9 +19,30 @@ public class Location
         this.QuestAvailableHere = quest;
     }
 
-    public static void GetLocation()
+      public string Compass()
     {
-        Player player = new Player(World.Locations[0]);
-        Console.WriteLine("Current location: " + player.CurrentLocation.Name);
+        string s = "From here you can go:\n";
+        if (LocationToNorth != null)
+        {
+            s += "    N\n    |\n";
+        }
+        if (LocationToWest != null)
+        {
+            s += "W---|";
+        }
+        else
+        {
+            s += "    |";
+        }
+        if (LocationToEast != null)
+        {
+            s += "---E";
+        }
+        s += "\n";
+        if (LocationToSouth != null)
+        {
+            s += "    |\n    S\n";
+        }
+        return s;
     }
 }
