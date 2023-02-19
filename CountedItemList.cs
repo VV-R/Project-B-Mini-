@@ -6,7 +6,7 @@ public class CountedItemList {
     }
 
     private int SearchIndex(Item item) {
-        return this.TheCountedItemList.Search(
+        return this.TheCountedItemList.FindIndex(
             countedItem => countedItem.TheItem.ID == item.ID
         );
     }
@@ -32,6 +32,10 @@ public class CountedItemList {
                 countedItem.Decrement();
             }
         }
+    }
+
+    public CountedItem SearchByItem(Item item) {
+        return 
     }
 
     public string Description() {
