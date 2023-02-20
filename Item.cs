@@ -3,9 +3,9 @@ public class Item {
     public string Name;
     public string NamePlural;
 
-    public Item(int ID, string Name, string NamePlural) {
-        this.ID = ID;
-        this.Name = Name;
-        this.NamePlural = NamePlural;
+    public Item(int id, string name, string namePlural) {
+        ID = id;
+        Name = name;
+        NamePlural = namePlural;
     }
 }
