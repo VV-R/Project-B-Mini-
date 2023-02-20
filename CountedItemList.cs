@@ -35,7 +35,7 @@ public class CountedItemList {
     }
 
     public CountedItem SearchByItem(Item item) {
-        return 
+        return this.TheCountedItemList.Find(countedItem => countedItem.TheItem.ID == item.ID);
     }
 
     public string Description() {
