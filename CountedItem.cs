@@ -2,9 +2,9 @@ public class CountedItem {
     public Item TheItem;
     public int Quantity;
 
-    public CountedItem(Item TheItem, int Quantity) {
-        TheItem = TheItem;
-        Quantity = Quantity;
+    public CountedItem(Item theItem, int quantity) {
+        TheItem = theItem;
+        Quantity = quantity;
     }
 
     public void Increment(int n = 1) => Quantity += 1;
