@@ -1,4 +1,4 @@
-class Weapon : Item {
+public class Weapon : Item {
     public int MinimumDamage;
     public int MaximumDamage;
 
