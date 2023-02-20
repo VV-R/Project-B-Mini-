@@ -161,7 +161,6 @@ public class Game
         // Have an option to talk with some one on the location to get quests or to get information
         switch (CurrentLocation.ID)
         {
-            // Home
             case 1:
                 homeEvent();
                 break;
@@ -209,8 +208,8 @@ public class Game
 
     private void guardPostCheck()
     {
-        Item pass = World.ItemByID(7);
-        if (PlayerOne.SearchByItem(pass))
+        Item pass = CurrentLocation.ItemRequiredToEnter;
+        if (PlayerOne.SearchByItem(pass) == null)
         {
             PassCheck = true;
             PlayerOne.SetLocation(CurrentLocation.LocationToEast);
@@ -224,23 +223,29 @@ public class Game
 
     private void alchemistHutEvent()
     {
-        Quest quest = World.QuestByID(1);
+        Quest quest = CurrentLocation.QuestAvailableHere;
         if (!PlayerOne.SearchByQuest(quest))
+        {
             PlayerOne.ObtainQuest(quest);
+        }
     }
 
     private void bridgeEvent()
     {
-        Quest quest = World.QuestByID(3);
+        Quest quest = CurrentLocation.QuestAvailableHere;
         if (!PlayerOne.SearchByQuest(quest))
+        {
             PlayerOne.ObtainQuest(quest);
+        }
     }
 
     private void farmHouseEvent()
     {
-        Quest quest = World.QuestByID(2);
+        Quest quest = CurrentLocation.QuestAvailableHere;
         if (!PlayerOne.SearchByQuest(quest))
+        {
             PlayerOne.ObtainQuest(quest);
+        }
     }
 
     private void monsterEvent()
