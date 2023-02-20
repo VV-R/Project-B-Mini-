@@ -25,7 +25,7 @@ public class Player
     public void TakeDamage(int damage) => CurrentHitPoints -= damage;
     public int DealDamage() => World.RandomGenerator.Next(currentWeapon.MinimumDamage, currentWeapon.MaximumDamage);
     public void AddItemToInventory(Item item) => Inventory.AddItem(item);
-    public bool SearchByItem(Item item) => Inventory.SearchByItem(item);
+    public CountedItem SearchByItem(Item item) => Inventory.SearchByItem(item);
     public void ObtainQuest(Quest quest) => questLog.AddQuest(quest);
     public bool SearchByQuest(Quest quest) => questLog.SearchByQuest(quest);
     public string DisplayQuests() => questLog.Description();
