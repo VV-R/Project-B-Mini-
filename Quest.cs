@@ -8,7 +8,7 @@ public class Quest
     public Item RewardItem;
 
     public Weapon RewardWeapon;
-    public CountedItemList QuestCompletionItems;
+    public CountedItem QuestCompletionItem;
     public Quest(int id, string name, string description, int exp, int gold, Item item, Weapon weapon)
     {
         ID = id;

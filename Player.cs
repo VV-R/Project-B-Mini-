@@ -3,8 +3,8 @@ public class Player
     public string Name;
     public int CurrentHitPoints = 10;
     public int MaximumHitPoints = 10;
+    public int Gold;
     // Currently not needed
-    // public int Gold;
     // public int ExperiencePoints;
     // public int Level;
     public CountedItemList Inventory;
@@ -16,6 +16,7 @@ public class Player
     public Player(string name)
     {
         Name = name;
+        Inventory = new CountedItemList(new List<CountedItem>());
     }
 
     public void SetWeapon(Weapon weapon) => currentWeapon = weapon;
@@ -36,5 +37,23 @@ public class Player
             CurrentHitPoints = MaximumHitPoints;
         else
             CurrentHitPoints += amount;
+    }
+
+    public bool CheckCompleted(Quest quest)
+    {
+        CountedItem playerItem = Inventory.SearchByItem(quest.QuestCompletionItem.TheItem);
+        if (playerItem != null && playerItem.Quantity >= quest.QuestCompletionItem.Quantity)
+        {
+            // Het liefst een functie in de QuestLog maken voor dit
+            foreach (PlayerQuest playerQuest in questLog.QuestLog)
+            {
+                if (playerQuest.TheQuest.ID == quest.ID)
+                {
+                    playerQuest.IsCompleted = true;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

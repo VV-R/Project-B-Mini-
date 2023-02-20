@@ -60,7 +60,8 @@ public class Game
             int index = World.RandomGenerator.Next(currentMonster.Loot.Count);
             Item drop = currentMonster.Loot[index];
             PlayerOne.AddItemToInventory(drop);
-            Console.WriteLine($"{currentMonster.Name} dropped {drop.Name}");
+            PlayerOne.Gold += currentMonster.RewardGold;
+            Console.WriteLine($"{currentMonster.Name} dropped {drop.Name} and {currentMonster.RewardGold} Gold");
             Console.WriteLine($"Current Healt {PlayerOne.CurrentHitPoints}/{PlayerOne.MaximumHitPoints}");
         }
     }
@@ -198,7 +199,7 @@ public class Game
 
     private void townSquareEvent()
     {
-        // IF the player has the Adventure pass maybe add some optional side quests.
+        // Shop
     }
 
     private void guardPostEvent()
@@ -227,6 +228,19 @@ public class Game
         if (!PlayerOne.SearchByQuest(quest))
         {
             PlayerOne.ObtainQuest(quest);
+            // Tekst voor wanneer de player de quest krijgt
+        }
+        else if (PlayerOne.CheckCompleted(quest))
+        {
+
+            PlayerOne.AddItemToInventory(quest.RewardItem);
+            PlayerOne.AddItemToInventory(quest.RewardWeapon);
+            PlayerOne.Gold += quest.RewardGold;
+            // Tekst voor wanneer hij gecomplete is.
+        }
+        else
+        {
+            // Tekst voor wanneer de player nog niet klaar is met de quest
         }
     }
 
@@ -236,6 +250,19 @@ public class Game
         if (!PlayerOne.SearchByQuest(quest))
         {
             PlayerOne.ObtainQuest(quest);
+            // Tekst voor wanneer de player de quest krijgt
+        }
+        else if (PlayerOne.CheckCompleted(quest))
+        {
+
+            PlayerOne.AddItemToInventory(quest.RewardItem);
+            PlayerOne.AddItemToInventory(quest.RewardWeapon);
+            PlayerOne.Gold += quest.RewardGold;
+            // Tekst voor wanneer hij gecomplete is.
+        }
+        else
+        {
+            // Tekst voor wanneer de player nog niet klaar is met de quest
         }
     }
 
@@ -245,6 +272,19 @@ public class Game
         if (!PlayerOne.SearchByQuest(quest))
         {
             PlayerOne.ObtainQuest(quest);
+            // Tekst voor wanneer de player de quest krijgt
+        }
+        else if (PlayerOne.CheckCompleted(quest))
+        {
+
+            PlayerOne.AddItemToInventory(quest.RewardItem);
+            PlayerOne.AddItemToInventory(quest.RewardWeapon);
+            PlayerOne.Gold += quest.RewardGold;
+            // Tekst voor wanneer hij gecomplete is.
+        }
+        else
+        {
+            // Tekst voor wanneer de player nog niet klaar is met de quest
         }
     }
 
