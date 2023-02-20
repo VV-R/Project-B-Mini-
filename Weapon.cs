@@ -5,10 +5,7 @@ public class Weapon : Item {
     public Weapon(
         int id, string name, string namePlural,
         int minimumDamage, int maximumDamage
-    ) {
-        ID = id;
-        Name = name;
-        NamePlural = namePlural;
+    ) : base(id, name, namePlural) {
         MinimumDamage = minimumDamage;
         MaximumDamage = maximumDamage;
     }
