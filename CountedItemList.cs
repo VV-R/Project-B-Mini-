@@ -11,6 +11,15 @@ public class CountedItemList {
         );
     }
 
+    public CountedItem GetByIndex(int index) {
+        try {
+            return this.TheCountedItemList[index];
+        }
+        catch (System.ArgumentOutOfRangeException) {
+            return null;
+        }
+    }
+
     public void AddItem(Item item) {
         int index = SearchIndex(item);
         if (index == -1) {
@@ -44,5 +53,11 @@ public class CountedItemList {
             descriptions.Add(countedItem.Description());
         }
         return String.Join("\n", descriptions);
+    }
+
+    public System.Collections.Generic.IEnumerable<CountedItem> Iter() {
+        foreach(CountedItem item in this.TheCountedItemList) {
+            yield return item;
+        }
     }
 }
