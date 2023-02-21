@@ -9,3 +9,17 @@ public class Item {
         NamePlural = namePlural;
     }
 }
+
+public class ConsumableItem : Item {
+    public int HealEffect;
+
+    public ConsumableItem(int ID, string Name, string NamePlural, int healEffect) : base(ID, Name, NamePlural) {
+        HealEffect = healEffect;
+    }
+
+    public void Consume(Player player) {
+        player.HealByAmount(HealEffect);
+        player.Inventory.RemoveItem(this);
+    }
+}
+

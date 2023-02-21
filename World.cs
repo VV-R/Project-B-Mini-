@@ -18,6 +18,9 @@ public static class World
     public const int ITEM_ID_SPIDER_SILK = 6;
     public const int ITEM_ID_ADVENTURER_PASS = 7;
     public const int ITEM_ID_WINNERS_MEDAL = 8;
+    public const int ITEM_ID_BREAD = 9;
+    public const int ITEM_ID_APPLE = 10;
+    public const int ITEM_ID_HEALTH_POTION = 11;
 
     public const int MONSTER_ID_RAT = 1;
     public const int MONSTER_ID_SNAKE = 2;
@@ -56,6 +59,9 @@ public static class World
         Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks"));
         Items.Add(new Item(ITEM_ID_ADVENTURER_PASS, "Adventurer pass", "Adventurer passes"));
         Items.Add(new Item(ITEM_ID_WINNERS_MEDAL, "Winner's medal", "winner's medals"));
+        Items.Add(new ConsumableItem(ITEM_ID_BREAD, "Bread", "Bread", 2));
+        Items.Add(new ConsumableItem(ITEM_ID_APPLE, "Apple", "Apples", 1));
+        Items.Add(new ConsumableItem(ITEM_ID_HEALTH_POTION, "Health potion", "Health potions", 5));
     }
 
     public static void PopulateWeapons()
