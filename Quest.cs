@@ -35,16 +35,20 @@ public class PlayerQuest
 public class QuestList
 {
     public List<PlayerQuest> QuestLog = new();
-    public string DisplayQuests(){
+    public string DisplayQuests()
+    {
         string empty_string = "";
-        foreach (var quest in QuestLog){
-            empty_string += quest;
+        foreach (var quest in QuestLog)
+        {
+            empty_string += $"{quest.TheQuest.Name} - {quest.TheQuest.Description} - {(quest.IsCompleted ? "Completed" : "In progress")}\n";
         }
         return empty_string;
     }
     public void AddQuest(Quest quest) => QuestLog.Add(new PlayerQuest(quest));
-    public bool SearchByQuest(Quest quest){
-        foreach (PlayerQuest playerQuest in QuestLog){
+    public bool SearchByQuest(Quest quest)
+    {
+        foreach (PlayerQuest playerQuest in QuestLog)
+        {
             if (playerQuest.TheQuest.ID == quest.ID)
                 return true;
         }

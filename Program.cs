@@ -3,12 +3,11 @@
     public static Game MainGame;
     public static void Main(string[] args)
     {
+        Console.Clear();
         // Create a menu to initialize the player {get a name}
         Player player = Menu();
         MainGame = new Game(player);
 
-        MainGame.PlayerOne.SetLocation(World.LocationByID(1));
-        MainGame.PlayerOne.SetWeapon(World.WeaponByID(1));
         // Add a option dialogue to trigger different Game
         while (MainGame.Running)
         {
@@ -24,7 +23,7 @@
             Console.Write("Please enter your name: ");
             name = Console.ReadLine();
         }
-        return new Player(name);
+        return new Player(name, World.WeaponByID(1), World.LocationByID(1));
     }
 
     public static void MainLoop()
@@ -52,7 +51,7 @@
                 MainGame.TriggerEvent();
                 break;
             case 7:
-                MainGame.Running = false;
+                System.Environment.Exit(0);
                 break;
             default:
                 Console.WriteLine("Not a valid option.");

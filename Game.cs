@@ -8,7 +8,7 @@ public class Game
 
     public Game(Player player)
     {
-        CurrentLocation = World.LocationByID(1);
+        CurrentLocation = player.GetLocation();
         PlayerOne = player;
     }
 
@@ -27,18 +27,19 @@ public class Game
         // bool isDoubleBattle = result < ChanceOfDouble;
 
         Console.WriteLine($"A wild {currentMonster.Name} appeared");
-        while (currentMonster.CurrentHitPoints > 0 || PlayerOne.CurrentHitPoints > 0)
+        while (currentMonster.CurrentHitPoints > 0 && PlayerOne.CurrentHitPoints > 0)
         {
             Console.WriteLine($"{currentMonster.Name} HP: {currentMonster.CurrentHitPoints}/{currentMonster.MaximumHitPoints}");
             Console.WriteLine($"{PlayerOne.Name} HP: {PlayerOne.CurrentHitPoints}/{PlayerOne.MaximumHitPoints}");
 
-            Console.WriteLine("1: Fight\n 2: Flee");
+            Console.WriteLine("1: Fight\n2: Flee");
             int.TryParse(Console.ReadLine(), out int choice);
 
             if (choice == 1)
             {
                 int playerDamage = PlayerOne.DealDamage();
                 Console.WriteLine($"You hit {currentMonster.Name} for {playerDamage} points of damage!!");
+                currentMonster.TakeDamage(playerDamage);
             }
             int monsterDamage = currentMonster.DealDamage();
             PlayerOne.TakeDamage(monsterDamage);
@@ -46,11 +47,12 @@ public class Game
             Console.ReadKey();
             Console.Clear();
         }
-        if (PlayerOne.CurrentHitPoints > 0)
+        if (PlayerOne.CurrentHitPoints <= 0)
         {
             Console.WriteLine("You have lost....");
             Console.WriteLine("You go back home and rest up.");
             PlayerOne.SetLocation(World.LocationByID(1));
+            PlayerOne.CurrentHitPoints = PlayerOne.MaximumHitPoints;
             CurrentLocation = PlayerOne.GetLocation();
             Console.WriteLine($"You are now at: {CurrentLocation.Name}.");
         }
@@ -61,9 +63,14 @@ public class Game
             Item drop = currentMonster.Loot[index];
             PlayerOne.AddItemToInventory(drop);
             PlayerOne.Gold += currentMonster.RewardGold;
+            PlayerOne.ExperiencePoints += currentMonster.RewardExperience;
             Console.WriteLine($"{currentMonster.Name} dropped {drop.Name} and {currentMonster.RewardGold} Gold");
+            Console.WriteLine($"Obtained {currentMonster.RewardExperience} EXP");
             Console.WriteLine($"Current Healt {PlayerOne.CurrentHitPoints}/{PlayerOne.MaximumHitPoints}");
         }
+        currentMonster.CurrentHitPoints = currentMonster.MaximumHitPoints;
+        if (PlayerOne.LevelUp())
+            OnLevelUp();
     }
 
     public void MoveToLocation()
@@ -72,7 +79,7 @@ public class Game
         Console.WriteLine($"You are at: {CurrentLocation.Name}. From here you can go:");
         Console.WriteLine(CurrentLocation.Compass());
 
-        Console.Write("\nEnter a direction (Arrow keys/NSWE): ");
+        Console.Write("\nEnter a direction (Arrow keys/NESW): ");
         ConsoleKeyInfo direction = Console.ReadKey();
         Console.WriteLine();
         switch (direction.Key)
@@ -80,8 +87,8 @@ public class Game
             // West
             case ConsoleKey.LeftArrow:
             case ConsoleKey.W:
-                if (CurrentLocation.LocationToEast != null)
-                    PlayerOne.SetLocation(CurrentLocation.LocationToEast);
+                if (CurrentLocation.LocationToWest != null)
+                    PlayerOne.SetLocation(CurrentLocation.LocationToWest);
                 else
                     Console.WriteLine("There is nothing towards the West.");
                 break;
@@ -130,9 +137,17 @@ public class Game
     public void PlayerStatus()
     {
         // Print out the current stat of the player {maybe even current quests}
+        Weapon currentWeapon = PlayerOne.GetWeapon();
+        Console.WriteLine($"Name: {PlayerOne.Name}");
+        Console.WriteLine($"Level: {PlayerOne.Level}");
+        Console.WriteLine($"ATK: {PlayerOne.BaseAttack}");
         Console.WriteLine($"HP: {PlayerOne.CurrentHitPoints}/{PlayerOne.MaximumHitPoints}");
-        Console.WriteLine($"Inventory:\n{PlayerOne.DisplayInventory()}");
-        Console.WriteLine($"Quests:\n{PlayerOne.DisplayQuests()}");
+        Console.Write($"EXP: {PlayerOne.ExperiencePoints} - ");
+        Console.WriteLine($"EXP needed for Level Up: {(60 + (20 * (PlayerOne.Level - 1))) - PlayerOne.ExperiencePoints}");
+        Console.WriteLine($"Current weapon: {currentWeapon.Name}");
+        Console.WriteLine($"Gold: {PlayerOne.Gold}");
+        Console.WriteLine($"\nInventory:\n{PlayerOne.DisplayInventory()}");
+        Console.WriteLine($"\nQuests:\n{PlayerOne.DisplayQuests()}");
     }
 
     public void Map()
@@ -188,6 +203,8 @@ public class Game
             default:
                 break;
         }
+        if (PlayerOne.LevelUp())
+            OnLevelUp();
     }
 
     private void homeEvent()
@@ -232,10 +249,13 @@ public class Game
         }
         else if (PlayerOne.CheckCompleted(quest))
         {
+            if (quest.RewardItem != null)
+                PlayerOne.AddItemToInventory(quest.RewardItem);
 
-            PlayerOne.AddItemToInventory(quest.RewardItem);
-            PlayerOne.AddItemToInventory(quest.RewardWeapon);
+            if (quest.RewardWeapon != null)
+                PlayerOne.SetWeapon(quest.RewardWeapon);
             PlayerOne.Gold += quest.RewardGold;
+            PlayerOne.ExperiencePoints += quest.RewardExperiencePoints;
             // Tekst voor wanneer hij gecomplete is.
         }
         else
@@ -255,9 +275,12 @@ public class Game
         else if (PlayerOne.CheckCompleted(quest))
         {
 
-            PlayerOne.AddItemToInventory(quest.RewardItem);
-            PlayerOne.AddItemToInventory(quest.RewardWeapon);
+            if (quest.RewardItem != null)
+                PlayerOne.AddItemToInventory(quest.RewardItem);
+            if (quest.RewardWeapon != null)
+                PlayerOne.SetWeapon(quest.RewardWeapon);
             PlayerOne.Gold += quest.RewardGold;
+            PlayerOne.ExperiencePoints += quest.RewardExperiencePoints;
             // Tekst voor wanneer hij gecomplete is.
         }
         else
@@ -277,9 +300,12 @@ public class Game
         else if (PlayerOne.CheckCompleted(quest))
         {
 
-            PlayerOne.AddItemToInventory(quest.RewardItem);
-            PlayerOne.AddItemToInventory(quest.RewardWeapon);
+            if (quest.RewardItem != null)
+                PlayerOne.AddItemToInventory(quest.RewardItem);
+            if (quest.RewardWeapon != null)
+                PlayerOne.SetWeapon(quest.RewardWeapon);
             PlayerOne.Gold += quest.RewardGold;
+            PlayerOne.ExperiencePoints += quest.RewardExperiencePoints;
             // Tekst voor wanneer hij gecomplete is.
         }
         else
@@ -296,5 +322,12 @@ public class Game
             BattleSequence();
         else
             Console.WriteLine("But nothing happened.");
+    }
+
+    private void OnLevelUp()
+    {
+        Console.WriteLine("Your level has been increased!");
+        Console.WriteLine($"Your HP is now {PlayerOne.MaximumHitPoints}");
+        Console.WriteLine($"Your ATK is now {PlayerOne.BaseAttack}");
     }
 }

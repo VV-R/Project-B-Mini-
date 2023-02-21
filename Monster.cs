@@ -5,9 +5,7 @@ public class Monster
     public string NamePlural;
     public int MaximumDamage;
     public int MinimumDamage;
-    // Currently not needed
     public int RewardExperience;
-    // Currently not needed
     public int RewardGold;
     // Part of items
     public List<Item> Loot = new List<Item>();

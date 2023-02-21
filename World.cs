@@ -60,17 +60,17 @@ public static class World
 
     public static void PopulateWeapons()
     {
-        Weapons.Add(new Weapon(WEAPON_ID_RUSTY_SWORD, "Rusty sword", "Rusty swords", 0, 5));
+        Weapons.Add(new Weapon(WEAPON_ID_RUSTY_SWORD, "Rusty sword", "Rusty swords", 1, 5));
         Weapons.Add(new Weapon(WEAPON_ID_CLUB, "Club", "Clubs", 3, 10));
     }
 
     public static void PopulateMonsters()
     {
-        Monster rat = new Monster(MONSTER_ID_RAT, "rat", "rats", 5, 3, 10, 3, 3);
+        Monster rat = new Monster(MONSTER_ID_RAT, "rat", "rats", 3, 1, 10, 3, 3);
         rat.AddItem(ItemByID(ITEM_ID_RAT_TAIL));
         rat.AddItem(ItemByID(ITEM_ID_PIECE_OF_FUR));
 
-        Monster snake = new Monster(MONSTER_ID_SNAKE, "snake", "snakes", 5, 4, 20, 7, 7);
+        Monster snake = new Monster(MONSTER_ID_SNAKE, "snake", "snakes", 4, 3, 20, 7, 7);
         snake.AddItem(ItemByID(ITEM_ID_SNAKE_FANG));
         snake.AddItem(ItemByID(ITEM_ID_SNAKESKIN));
 
