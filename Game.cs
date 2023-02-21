@@ -246,6 +246,7 @@ public class Game
         {
             PlayerOne.ObtainQuest(quest);
             // Tekst voor wanneer de player de quest krijgt
+            Console.WriteLine("Those rats art nibbling on mine own h'rbs! I couldst very much useth an adventur'r to taketh careth of those folk …");
         }
         else if (PlayerOne.CheckCompleted(quest))
         {
@@ -257,10 +258,12 @@ public class Game
             PlayerOne.Gold += quest.RewardGold;
             PlayerOne.ExperiencePoints += quest.RewardExperiencePoints;
             // Tekst voor wanneer hij gecomplete is.
+            Console.WriteLine("Thank thee so much! Here you go, I have a gift for thee");
         }
         else
         {
             // Tekst voor wanneer de player nog niet klaar is met de quest
+            Console.WriteLine("What are you doing here? Those rats are still nibbling on mine h'rbs!");
         }
     }
 
@@ -271,6 +274,7 @@ public class Game
         {
             PlayerOne.ObtainQuest(quest);
             // Tekst voor wanneer de player de quest krijgt
+            Console.WriteLine("Please adventurer, please releaseth the town folks of their feareth by killing the spiders!");
         }
         else if (PlayerOne.CheckCompleted(quest))
         {
@@ -282,10 +286,11 @@ public class Game
             PlayerOne.Gold += quest.RewardGold;
             PlayerOne.ExperiencePoints += quest.RewardExperiencePoints;
             // Tekst voor wanneer hij gecomplete is.
+            Console.WriteLine("Thank thee so much! Here you go, I have a gift for thee");
         }
         else
         {
-            // Tekst voor wanneer de player nog niet klaar is met de quest
+            Console.WriteLine("What are you doing here? Those spiders are still crawling around!");
         }
     }
 
@@ -296,6 +301,7 @@ public class Game
         {
             PlayerOne.ObtainQuest(quest);
             // Tekst voor wanneer de player de quest krijgt
+            Console.WriteLine("I can't w'rk mine own landeth with those pesky snakes slith'ring 'round! Shall thee holp me?");
         }
         else if (PlayerOne.CheckCompleted(quest))
         {
@@ -307,10 +313,12 @@ public class Game
             PlayerOne.Gold += quest.RewardGold;
             PlayerOne.ExperiencePoints += quest.RewardExperiencePoints;
             // Tekst voor wanneer hij gecomplete is.
+            Console.WriteLine("Thank thee so much! Here you go, I have a gift for thee");
         }
         else
         {
             // Tekst voor wanneer de player nog niet klaar is met de quest
+            Console.WriteLine("What are you doing here? Those pesky snakes are still slith'ring 'round!");
         }
     }
 
