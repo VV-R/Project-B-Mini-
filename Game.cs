@@ -313,7 +313,10 @@ public class Game
             PlayerOne.Gold += quest.RewardGold;
             PlayerOne.ExperiencePoints += quest.RewardExperiencePoints;
             // Tekst voor wanneer hij gecomplete is.
-            Console.WriteLine("Thank thee so much! Here you go, I have a gift for thee");
+            Console.WriteLine("Thank thee so much! Here you go, I have a gift for thee\n\n\n");
+
+            Console.WriteLine("><--- Thank you for playing ---><");
+            System.Environment.Exit(0);
         }
         else
         {
