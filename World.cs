@@ -6,6 +6,7 @@ public static class World
     public static readonly List<Quest> Quests = new List<Quest>();
     public static readonly List<Location> Locations = new List<Location>();
     public static readonly Random RandomGenerator = new Random();
+    public static readonly List<ConsumableItem> ConsumableItems = new List<ConsumableItem>();
 
     public const int WEAPON_ID_RUSTY_SWORD = 1;
     public const int WEAPON_ID_CLUB = 2;
@@ -59,9 +60,9 @@ public static class World
         Items.Add(new Item(ITEM_ID_SPIDER_SILK, "Spider silk", "Spider silks"));
         Items.Add(new Item(ITEM_ID_ADVENTURER_PASS, "Adventurer pass", "Adventurer passes"));
         Items.Add(new Item(ITEM_ID_WINNERS_MEDAL, "Winner's medal", "winner's medals"));
-        Items.Add(new ConsumableItem(ITEM_ID_BREAD, "Bread", "Bread", 2));
-        Items.Add(new ConsumableItem(ITEM_ID_APPLE, "Apple", "Apples", 1));
-        Items.Add(new ConsumableItem(ITEM_ID_HEALTH_POTION, "Health potion", "Health potions", 5));
+        ConsumableItems.Add(new ConsumableItem(ITEM_ID_BREAD, "Bread", "Bread", 2));
+        ConsumableItems.Add(new ConsumableItem(ITEM_ID_APPLE, "Apple", "Apples", 1));
+        ConsumableItems.Add(new ConsumableItem(ITEM_ID_HEALTH_POTION, "Health potion", "Health potions", 5));
     }
 
     public static void PopulateWeapons()
@@ -230,6 +231,17 @@ public static class World
         return null;
     }
 
+    public static ConsumableItem GetConsumableItem(int id)
+    {
+        foreach (ConsumableItem item in ConsumableItems)
+        {
+            if (item.ID == id)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
     public static Monster MonsterByID(int id)
     {
         foreach (Monster monster in Monsters)

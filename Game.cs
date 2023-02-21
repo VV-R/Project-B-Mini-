@@ -32,7 +32,7 @@ public class Game
             Console.WriteLine($"{currentMonster.Name} HP: {currentMonster.CurrentHitPoints}/{currentMonster.MaximumHitPoints}");
             Console.WriteLine($"{PlayerOne.Name} HP: {PlayerOne.CurrentHitPoints}/{PlayerOne.MaximumHitPoints}");
 
-            Console.WriteLine("1: Fight\n2: Flee");
+            Console.WriteLine("1: Fight\n2: Use item\n3: Flee");
             int.TryParse(Console.ReadLine(), out int choice);
 
             if (choice == 1)
@@ -40,6 +40,18 @@ public class Game
                 int playerDamage = PlayerOne.DealDamage();
                 Console.WriteLine($"You hit {currentMonster.Name} for {playerDamage} points of damage!!");
                 currentMonster.TakeDamage(playerDamage);
+            }
+            else if (choice == 2)
+            {
+                int oldHP = PlayerOne.CurrentHitPoints;
+                UseItem();
+                if (oldHP != PlayerOne.CurrentHitPoints)
+                    Console.WriteLine($"You were healed for {PlayerOne.CurrentHitPoints - oldHP} Health");
+            }
+            else if (choice == 3)
+            {
+                if (World.RandomGenerator.NextDouble() < 0.2)
+                    break;
             }
             int monsterDamage = currentMonster.DealDamage();
             PlayerOne.TakeDamage(monsterDamage);
@@ -56,7 +68,7 @@ public class Game
             CurrentLocation = PlayerOne.GetLocation();
             Console.WriteLine($"You are now at: {CurrentLocation.Name}.");
         }
-        else
+        else if (currentMonster.CurrentHitPoints <= 0)
         {
             Console.WriteLine("You won the fight!");
             int index = World.RandomGenerator.Next(currentMonster.Loot.Count);
@@ -67,6 +79,10 @@ public class Game
             Console.WriteLine($"{currentMonster.Name} dropped {drop.Name} and {currentMonster.RewardGold} Gold");
             Console.WriteLine($"Obtained {currentMonster.RewardExperience} EXP");
             Console.WriteLine($"Current Healt {PlayerOne.CurrentHitPoints}/{PlayerOne.MaximumHitPoints}");
+        }
+        else
+        {
+            Console.WriteLine("You fled from the fight");
         }
         currentMonster.CurrentHitPoints = currentMonster.MaximumHitPoints;
         if (PlayerOne.LevelUp())
@@ -207,6 +223,25 @@ public class Game
             OnLevelUp();
     }
 
+    public void UseItem()
+    {
+        Console.WriteLine("Enter an integer or write exit to exit.");
+        Console.WriteLine("Inventory:");
+        Console.WriteLine("Index - Amount - Item");
+        Console.WriteLine(PlayerOne.InventoryWithIndex());
+        bool used = false;
+        while (!used)
+        {
+            string index = Console.ReadLine();
+            if (int.TryParse(index, out int result))
+                used = PlayerOne.UseItem(result);
+            else if (index.ToLower().Contains("exit"))
+                break;
+            else
+                Console.WriteLine("Please enter a interger or write exit to exit.");
+        }
+    }
+
     private void homeEvent()
     {
         Console.WriteLine("You decide to rest at your house.");
@@ -226,8 +261,8 @@ public class Game
 
     private void guardPostCheck()
     {
-        Item pass = CurrentLocation.ItemRequiredToEnter;
-        if (PlayerOne.SearchByItem(pass) == null)
+        Item pass = World.ItemByID(7);
+        if (PlayerOne.SearchByItem(pass) != null)
         {
             PassCheck = true;
             PlayerOne.SetLocation(CurrentLocation.LocationToEast);
@@ -246,7 +281,7 @@ public class Game
         {
             PlayerOne.ObtainQuest(quest);
             // Tekst voor wanneer de player de quest krijgt
-            Console.WriteLine("Those rats art nibbling on mine own h'rbs! I couldst very much useth an adventur'r to taketh careth of those folk …");
+            Console.WriteLine("Alchemist: Those rats art nibbling on mine own h'rbs! I couldst very much useth an adventur'r to taketh careth of those folk …");
         }
         else if (PlayerOne.CheckCompleted(quest))
         {
@@ -258,12 +293,13 @@ public class Game
             PlayerOne.Gold += quest.RewardGold;
             PlayerOne.ExperiencePoints += quest.RewardExperiencePoints;
             // Tekst voor wanneer hij gecomplete is.
-            Console.WriteLine("Thank thee so much! Here you go, I have a gift for thee");
+            Console.WriteLine("Alchemist: Thank thee so much! Here you go, I have a gift for thee");
+            Console.WriteLine("Obtained a Club!");
         }
         else
         {
             // Tekst voor wanneer de player nog niet klaar is met de quest
-            Console.WriteLine("What are you doing here? Those rats are still nibbling on mine h'rbs!");
+            Console.WriteLine("Alchemist: What are you doing here? Those rats are still nibbling on mine h'rbs!");
         }
     }
 
@@ -274,23 +310,23 @@ public class Game
         {
             PlayerOne.ObtainQuest(quest);
             // Tekst voor wanneer de player de quest krijgt
-            Console.WriteLine("Please adventurer, please releaseth the town folks of their feareth by killing the spiders!");
+            Console.WriteLine("King: Please adventurer, please releaseth the town folks of their feareth by killing the spiders!");
         }
         else if (PlayerOne.CheckCompleted(quest))
         {
 
-            if (quest.RewardItem != null)
-                PlayerOne.AddItemToInventory(quest.RewardItem);
-            if (quest.RewardWeapon != null)
-                PlayerOne.SetWeapon(quest.RewardWeapon);
+            PlayerOne.AddItemToInventory(quest.RewardItem);
             PlayerOne.Gold += quest.RewardGold;
             PlayerOne.ExperiencePoints += quest.RewardExperiencePoints;
             // Tekst voor wanneer hij gecomplete is.
-            Console.WriteLine("Thank thee so much! Here you go, I have a gift for thee");
+            Console.WriteLine("King: Thank thee so much! Here you go, I have a gift for thee\n\n\n");
+            Console.WriteLine("Obtained the winners medal!");
+            Console.WriteLine("><--- Thank you for playing ---><");
+            System.Environment.Exit(0);
         }
         else
         {
-            Console.WriteLine("What are you doing here? Those spiders are still crawling around!");
+            Console.WriteLine("King: What are you doing here? Those spiders are still crawling around!");
         }
     }
 
@@ -301,7 +337,7 @@ public class Game
         {
             PlayerOne.ObtainQuest(quest);
             // Tekst voor wanneer de player de quest krijgt
-            Console.WriteLine("I can't w'rk mine own landeth with those pesky snakes slith'ring 'round! Shall thee holp me?");
+            Console.WriteLine("Farmer: I can't w'rk mine own landeth with those pesky snakes slith'ring 'round! Shall thee holp me?");
         }
         else if (PlayerOne.CheckCompleted(quest))
         {
@@ -313,15 +349,13 @@ public class Game
             PlayerOne.Gold += quest.RewardGold;
             PlayerOne.ExperiencePoints += quest.RewardExperiencePoints;
             // Tekst voor wanneer hij gecomplete is.
-            Console.WriteLine("Thank thee so much! Here you go, I have a gift for thee\n\n\n");
-
-            Console.WriteLine("><--- Thank you for playing ---><");
-            System.Environment.Exit(0);
+            Console.WriteLine("Farmer: Thank thee so much! Here you go, I have a gift for thee");
+            Console.WriteLine("Obtained the Adventure pass, maybe you can cross the bridge now?");
         }
         else
         {
             // Tekst voor wanneer de player nog niet klaar is met de quest
-            Console.WriteLine("What are you doing here? Those pesky snakes are still slith'ring 'round!");
+            Console.WriteLine("Farmer: What are you doing here? Those pesky snakes are still slith'ring 'round!");
         }
     }
 

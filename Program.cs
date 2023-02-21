@@ -7,6 +7,8 @@
         // Create a menu to initialize the player {get a name}
         Player player = Menu();
         MainGame = new Game(player);
+        player.AddItemToInventory(World.GetConsumableItem(10));
+        player.AddItemToInventory(World.GetConsumableItem(10));
 
         // Add a option dialogue to trigger different Game
         while (MainGame.Running)
@@ -28,7 +30,7 @@
 
     public static void MainLoop()
     {
-        Console.WriteLine("1: Status\n2: Move\n3: Fight\n4: Map\n5: Location info\n6: Look around\n7: Quit");
+        Console.WriteLine("1: Status\n2: Move\n3: Fight\n4: Map\n5: Location info\n6: Look around\n7: Use Item\n8: Quit");
         int.TryParse(Console.ReadLine(), out int result);
         switch (result)
         {
@@ -51,6 +53,9 @@
                 MainGame.TriggerEvent();
                 break;
             case 7:
+                MainGame.UseItem();
+                break;
+            case 8:
                 System.Environment.Exit(0);
                 break;
             default:
