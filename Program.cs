@@ -28,7 +28,7 @@
 
     public static void MainLoop()
     {
-        Console.WriteLine("1: Satus\n2: Move\n3: Fight\n4: Map\n5: Location info\n6: Look around\n7: Quit");
+        Console.WriteLine("1: Status\n2: Move\n3: Fight\n4: Map\n5: Location info\n6: Look around\n7: Quit");
         int.TryParse(Console.ReadLine(), out int result);
         switch (result)
         {
