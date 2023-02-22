@@ -7,7 +7,6 @@
         // Create a menu to initialize the player {get a name}
         Player player = Menu();
 
-        player.Gold = 1000;
         MainGame = new Game(player);
         player.AddItemToInventory(World.GetConsumableItem(10));
         player.AddItemToInventory(World.GetConsumableItem(10));

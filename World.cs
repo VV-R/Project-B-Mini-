@@ -202,9 +202,9 @@ public static class World
             new Shop(
                 SHOP_ID_TOWN_SQUARE, "Town Square's Shop",
                 new List<(CountedItem, int Price)> {
-                    (new CountedItem(ItemByID(ITEM_ID_BREAD), 2), 2),
-                    (new CountedItem(ItemByID(ITEM_ID_APPLE), 5), 1),
-                    (new CountedItem(ItemByID(ITEM_ID_HEALTH_POTION), 2), 7)
+                    (new CountedItem(GetConsumableItem(ITEM_ID_BREAD), 2), 2),
+                    (new CountedItem(GetConsumableItem(ITEM_ID_APPLE), 5), 1),
+                    (new CountedItem(GetConsumableItem(ITEM_ID_HEALTH_POTION), 2), 7)
                 }
             )
         );
