@@ -1,7 +1,13 @@
 public class Shop {
+    public int ID;
+    public string Name;
     public List<(CountedItem item, int price)> Inventory;
 
-    public Shop(List<(CountedItem item, int price)> inventory) {
+    public Shop(
+        int id, string name, List<(CountedItem item, int price)> inventory
+    ) {
+        ID = id;
+        Name = name;
         Inventory = inventory;
     }
 

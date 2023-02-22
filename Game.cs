@@ -216,7 +216,10 @@ public class Game
 
     private void townSquareEvent()
     {
-        // Shop
+        Console.WriteLine("There seems to be a shop...");
+        Console.WriteLine("Let's check it out!");
+        Shop shop = World.ShopByID(World.SHOP_ID_TOWN_SQUARE);
+        shop.browse(PlayerOne);
     }
 
     private void guardPostEvent()
