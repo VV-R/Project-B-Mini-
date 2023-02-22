@@ -6,6 +6,8 @@
         Console.Clear();
         // Create a menu to initialize the player {get a name}
         Player player = Menu();
+
+        player.Gold = 1000;
         MainGame = new Game(player);
 
         // Add a option dialogue to trigger different Game

@@ -50,6 +50,7 @@ public static class World
         PopulateMonsters();
         PopulateQuests();
         PopulateLocations();
+        PopulateShops();
     }
 
     public static void PopulateItems()
@@ -194,7 +195,8 @@ public static class World
         Locations.Add(spiderField);
     }
 
-    public static void PopulateShops() {
+    public static void PopulateShops()
+    {
         Shops.Add(
             new Shop(
                 SHOP_ID_TOWN_SQUARE, "Town Square's Shop",
@@ -272,8 +274,10 @@ public static class World
         return null;
     }
 
-    public static Shop ShopByID(int id) {
-        foreach (Shop shop in Shops) {
+    public static Shop ShopByID(int id)
+    {
+        foreach (Shop shop in Shops)
+        {
             if (shop.ID == id) return shop;
         }
         return null;
