@@ -34,6 +34,16 @@ public class Player
     public bool SearchByQuest(Quest quest) => questLog.SearchByQuest(quest);
     public string DisplayQuests() => questLog.DisplayQuests();
     public string DisplayInventory() => Inventory.Description();
+    public string InventoryWithIndex()
+    {
+        string[] messages = Inventory.Description().Split("\n");
+        string info = "";
+        for (int i = 0; i < messages.Length; i++)
+        {
+            info += $"({i}) {messages[i]}\n";
+        }
+        return info;
+    }
     public void HealByAmount(int amount)
     {
         if (CurrentHitPoints + amount > MaximumHitPoints)
@@ -73,6 +83,23 @@ public class Player
             CurrentHitPoints = MaximumHitPoints;
             return true;
         }
+        return false;
+    }
+    public bool UseItem(int index)
+    {
+        CountedItem countedItem = Inventory.GetByIndex(index);
+        if (countedItem != null)
+        {
+            if (countedItem.TheItem.ID >= 9 && countedItem.TheItem.ID <= 11)
+            {
+                ConsumableItem item = World.GetConsumableItem(countedItem.TheItem.ID);
+                item.Consume(this);
+            }
+            else
+                Console.WriteLine("This item has no usage.");
+            return true;
+        }
+        Console.WriteLine("Index out of range.");
         return false;
     }
 }
