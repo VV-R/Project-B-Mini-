@@ -6,6 +6,7 @@ public static class World
     public static readonly List<Quest> Quests = new List<Quest>();
     public static readonly List<Location> Locations = new List<Location>();
     public static readonly Random RandomGenerator = new Random();
+    public static readonly List<Shop> Shops = new List<Shop>();
     public static readonly List<ConsumableItem> ConsumableItems = new List<ConsumableItem>();
 
     public const int WEAPON_ID_RUSTY_SWORD = 1;
@@ -41,6 +42,8 @@ public static class World
     public const int LOCATION_ID_BRIDGE = 8;
     public const int LOCATION_ID_SPIDER_FIELD = 9;
 
+    public const int SHOP_ID_TOWN_SQUARE = 1;
+
     static World()
     {
         PopulateItems();
@@ -48,6 +51,7 @@ public static class World
         PopulateMonsters();
         PopulateQuests();
         PopulateLocations();
+        PopulateShops();
     }
 
     public static void PopulateItems()
@@ -192,6 +196,20 @@ public static class World
         Locations.Add(spiderField);
     }
 
+    public static void PopulateShops()
+    {
+        Shops.Add(
+            new Shop(
+                SHOP_ID_TOWN_SQUARE, "Town Square's Shop",
+                new List<(CountedItem, int Price)> {
+                    (new CountedItem(ItemByID(ITEM_ID_BREAD), 2), 2),
+                    (new CountedItem(ItemByID(ITEM_ID_APPLE), 5), 1),
+                    (new CountedItem(ItemByID(ITEM_ID_HEALTH_POTION), 2), 7)
+                }
+            )
+        );
+    }
+
     public static Location LocationByID(int id)
     {
         foreach (Location location in Locations)
@@ -265,6 +283,15 @@ public static class World
             }
         }
 
+        return null;
+    }
+
+    public static Shop ShopByID(int id)
+    {
+        foreach (Shop shop in Shops)
+        {
+            if (shop.ID == id) return shop;
+        }
         return null;
     }
 }
