@@ -92,8 +92,10 @@ public class Player
         {
             if (countedItem.TheItem.ID >= 9 && countedItem.TheItem.ID <= 11)
             {
+                int oldHP = CurrentHitPoints;
                 ConsumableItem item = World.GetConsumableItem(countedItem.TheItem.ID);
                 item.Consume(this);
+                Console.WriteLine($"You were healed for {CurrentHitPoints - oldHP} Health");
             }
             else
                 Console.WriteLine("This item has no usage.");

@@ -42,12 +42,7 @@ public class Game
                 currentMonster.TakeDamage(playerDamage);
             }
             else if (choice == 2)
-            {
-                int oldHP = PlayerOne.CurrentHitPoints;
                 UseItem();
-                if (oldHP != PlayerOne.CurrentHitPoints)
-                    Console.WriteLine($"You were healed for {PlayerOne.CurrentHitPoints - oldHP} Health");
-            }
             else if (choice == 3)
             {
                 if (World.RandomGenerator.NextDouble() < 0.2)
